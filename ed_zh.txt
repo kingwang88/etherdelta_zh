@@ -1,15 +1,21 @@
 EtherDelta supports resting orders (adding liquidity) and trading against existing resting orders (taking liquidity).
 EtherDelta支持“待定下单”（resting order）来增加流动性，以及交易“待定下单”来减少流动性。
+
 To create a resting order, fill out the "Buy" or "Sell" form at the top of the page. The order expires in the number of blocks you specify (1 block &#8776; 15 seconds).
 要创建“待定下单”，在本页的开头输入“买”或“卖”。该订单会在你指定的块数到期（一块包含15秒）。
+
 If you need to cancel your order, you can click your order in the order book and press the "Cancel" button. This will send an Ethereum transaction that will, once confirmed, cancel your order. Note that this will cost gas (Ethereum transaction fee), whereas placing a resting order and letting it expire does not cost gas.
 要取消订单，你可以点订单记录中的订单，再点“取消”按钮。这样会寄出一个以太坊交易，经过验证后，订单会取消。注意这个要消耗gas（以太坊交易费）。但是订一个“待定下单”，让它到期不会消耗gas。
+
 When you submit a resting order, it gets broadcast to the world. The current broadcast channel is a Gitter chat room, but EtherDelta also supports using Ethereum events as a fallback broadcast mechanism.
 但你提交了一个“待定下单”后，它会广播到全球。现在的传播渠道是Gitter聊天室，但是EtherDelta也支持以太坊事件机制，用来保底。
+
 The GUI scans for new orders being broadcast and displays them in the order book (offers on the left, bids on the right).
 页面会扫描新的在广播中的订单，并在定记录中显示（报价在左，竞价在右）。
+
 A resting order represents a cryptographically signed intent to trade. Up until your order expires or is cancelled, anyone who has seen it can trade against it, assuming both traders have enough funds in their EtherDelta accounts. The GUI filters out orders that do not have funds to back them up. Partial fills are supported.
 “待定下单”代表加密签名过的交易意向。在你的订单过期或取消以前，看见这个订单的任何人可以与它交易（前提是双方账号中有足够的币）。页面会过滤掉币的数量不够的订单。订单也可以部分成交。
+
 To trade against an existing resting order, click "Buy" or "Sell" next to it in the order book and type in the volume you want to trade. The GUI will do one last check that the trade can cross (the funds are there and the order hasn't already traded), but if someone submits a transaction right before you do, your Ethereum transaction will fail because the order already traded.
 要和已有的“待定下单”交易，点订单记录中“待定下单”的“买”或“卖”，并输入你要交易的数量。本页会再做最后的成交检查，确定有足够的币，并且订单没有被交易掉。如果别人比你先提交，你的以太坊交易会失败，因为订单已经交易了。
 		
