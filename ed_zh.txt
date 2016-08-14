@@ -1,0 +1,190 @@
+EtherDelta supports resting orders (adding liquidity) and trading against existing resting orders (taking liquidity).
+EtherDelta支持“待定下单”（resting order）来增加流动性，以及交易“待定下单”来减少流动性。
+To create a resting order, fill out the "Buy" or "Sell" form at the top of the page. The order expires in the number of blocks you specify (1 block &#8776; 15 seconds).
+要创建“待定下单”，在本页的开头输入“买”或“卖”。该订单会在你指定的块数到期（一块包含15秒）。
+If you need to cancel your order, you can click your order in the order book and press the "Cancel" button. This will send an Ethereum transaction that will, once confirmed, cancel your order. Note that this will cost gas (Ethereum transaction fee), whereas placing a resting order and letting it expire does not cost gas.
+要取消订单，你可以点订单记录中的订单，再点“取消”按钮。这样会寄出一个以太坊交易，经过验证后，订单会取消。注意这个要消耗gas（以太坊交易费）。但是订一个“待定下单”，让它到期不会消耗gas。
+When you submit a resting order, it gets broadcast to the world. The current broadcast channel is a Gitter chat room, but EtherDelta also supports using Ethereum events as a fallback broadcast mechanism.
+但你提交了一个“待定下单”后，它会广播到全球。现在的传播渠道是Gitter聊天室，但是EtherDelta也支持以太坊事件机制，用来保底。
+The GUI scans for new orders being broadcast and displays them in the order book (offers on the left, bids on the right).
+页面会扫描新的在广播中的订单，并在定记录中显示（报价在左，竞价在右）。
+A resting order represents a cryptographically signed intent to trade. Up until your order expires or is cancelled, anyone who has seen it can trade against it, assuming both traders have enough funds in their EtherDelta accounts. The GUI filters out orders that do not have funds to back them up. Partial fills are supported.
+“待定下单”代表加密签名过的交易意向。在你的订单过期或取消以前，看见这个订单的任何人可以与它交易（前提是双方账号中有足够的币）。页面会过滤掉币的数量不够的订单。订单也可以部分成交。
+To trade against an existing resting order, click "Buy" or "Sell" next to it in the order book and type in the volume you want to trade. The GUI will do one last check that the trade can cross (the funds are there and the order hasn't already traded), but if someone submits a transaction right before you do, your Ethereum transaction will fail because the order already traded.
+要和已有的“待定下单”交易，点订单记录中“待定下单”的“买”或“卖”，并输入你要交易的数量。本页会再做最后的成交检查，确定有足够的币，并且订单没有被交易掉。如果别人比你先提交，你的以太坊交易会失败，因为订单已经交易了。
+		
+In the top left, you will find two dropdowns you can use to select the currency pair you want to trade. For example, select "DAO" and "ETH" to trade the "DAO/ETH" currency pair.
+在左上角，你可以找到两个下拉列表来选择币对进行交易。例如， 选择“MKR”和“ETH”来交易“MKR/ETH”币对。
+
+Under "Balances," you will see your balance for each of the two currencies you selected. This is the balance you have deposited to EtherDelta from your Ethereum account.
+在“余额”下面，你可以看到两种币的各自的余额，这是从你的以太坊账号充值的余额。
+
+To deposit, withdraw, or transfer, scroll to the bottom of the page. Find the "Balances" section.
+要“充值”，“提取”，或“转移”，在本页的底部，找到“余额”章节。
+
+To deposit, click the "Deposit" tab, pick a token, enter an amount you would like to deposit from your Ethereum account into EtherDelta, and click "Deposit."
+充值--点“充值”，选择一种币，输入从以太坊账号进入EtherDelta的充值数量，再点“充值”。
+
+Once the Ethereum transaction has been confirmed, your balance will automatically update. If you don't have the necessary funds available for the deposit or withdraw transaction, then the Ethereum transaction will fail.
+一旦以太坊交易通过验证，你的余额就会自动更新。如果币值不足，充值和提取就会失败。
+
+Connect to Ethereum
+连接以太坊
+
+There are three ways you can connect to the Ethereum network.
+连接以太坊有三种方式
+
+Connect to the Ethereum network through <a href="https://metamask.io">MetaMask</a>. MetaMask is a Chrome plugin that lets you manage your Ethereum accounts and sign transactions on a case by case basis. If you are using MetaMask, your MetaMask account will automatically appear in the account dropdown.
+通过 <a href="https://metamask.io">MetaMask</a>. MetaMask是Chrome浏览器plugin。可以用它管理你的以太坊账号，给你的交易签名。如果你用MetaMask, 你的MetaMask账号自动出现在账号下拉列表里。
+
+Connect to Ethereum via the Mist browser. The only downside to doing this is that you will have to unlock your account manually in order to broadcast resting orders (other transactions will work). Mist will eventually support the eth.sign() function that is needed to individually approve resting orders, but for now you will need to unlock your account manually by running <code>geth attach</code> and then <code>personal.unlockAccount("0xYOUR_ETHEREUM_ACCOUNT")</code> from the command line.
+通过Mist浏览器。这种方式唯一的缺点是： 你要手动解锁你的账号，以便扩散“待定下单”（其它交易可以完成）。Mist最终会支持eth.sign()，需要这个函数来分个批准“待定下单”，但是现在你要通过命令行执行<code>geth attach</code> 并且 执行<code>personal.unlockAccount("0x你的以太坊账号")</code>手动解锁。
+
+Connect to Ethereum through the Etherscan API. This is the default option if you don't have MetaMask or Mist. You will need to create a new account by clicking "Create account" under the address dropdown. You should export the private key and write it down by clicking "Export private key" under the address dropdown. If you prefer, you can also use <a href="http://www.myetherwallet.com/" target="_blank">MyEtherWallet</a> to create a new Ethereum account, then use "Import account" to add your new address and its private key.
+通过以太坊API。如果你没有MetaMask或Mist，这是缺省设置。你需要点击“地址”下拉列表“创建账号”创建一个新账号。你要点击“地址”下拉列表“导出私钥”，导出私钥并写下来。你也可以倾向使用<a href="http://www.myetherwallet.com/" target="_blank">MyEtherWallet</a>创建新的以太坊账号，然后用“导入账号”来添加你的新地址和私钥。
+
+
+Produced by Etherboost
+Etherboost制作
+
+EtherDelta &#8212; decentralized token exchange
+EtherDelta &#8212; 无中心交易
+
+OutcomeCoin &#8212; prediction market tokens
+OutcomeCoin &#8212; 预测市场币
+
+EthereumDollar &#8212; stable dollar token
+EthereumDollar &#8212; 稳定美元币
+
+Etheropt &#8212; decentralized options exchange
+Etheropt &#8212; 无中心期权交易
+
+EtherDelta is a decentralized trading platform for Ethereum tokens.
+EtherDelta是无中心的以太坊交易平台。
+
+Toggle navigation
+切换导航
+
+Add account
+添加账号
+
+Address
+地址
+
+Private key
+密钥
+
+Cancel
+取消
+
+Buy
+买
+
+Amount
+数量
+
+Order
+下单
+
+Sell
+卖
+
+Other token
+其它币
+
+Name
+币名称
+
+Divisor
+除数
+
+Go
+提交
+
+Other base
+其它币基
+
+other_base_name
+币基名称
+
+Balances
+余额
+
+New account
+新账号
+
+Import account
+导入账号
+
+Export private key
+导出私钥
+
+Forget account
+忘记账号
+
+Forget all accounts
+忘记所有账号
+
+Deposit
+充值
+
+Withdraw
+提取
+
+Transfer
+转移
+
+Balance (in your wallet)
+钱包余额
+
+Balance (on EtherDelta)
+EtherDelta余额
+
+Connect using
+连接采用
+
+or
+或
+
+Offers
+报价
+
+Order details
+下单明细
+
+This order will refresh when it expires unless you press <button type="button" class="btn btn-primary btn-xs" style="width:50px;" onclick="bundle.Main.cancelOrderRefresh(<%= order.order.nonce %>);">Stop</button> or refresh/close the page.
+这单到期会刷新，除非你按<button type="button" class="btn btn-primary btn-xs" style="width:50px;" onclick="bundle.Main.cancelOrderRefresh(<%= order.order.nonce %>);">停止</button> 或 刷新/关闭本页。
+
+You can <button type="button" class="btn btn-primary btn-xs" style="width:50px;" onclick="bundle.Main.cancelOrder('<%= encodeURIComponent(JSON.stringify(order.order)) %>');">Cancel</button> this order with a blockchain transaction.
+你可以<button type="button" class="btn btn-primary btn-xs" style="width:50px;" onclick="bundle.Main.cancelOrder('<%= encodeURIComponent(JSON.stringify(order.order)) %>');">取消</button>这单区块链交易。
+
+August 3, 2016
+2016年8月3日
+
+EtherDelta has moved to a new smart contract. Go to the bottom of the page and switch to the old one if you have a balance there you need to withdraw.
+EtherDelta迁移到了新的智能合约。如果你要提取余额，请到本页底部转成旧的。
+
+My transactions
+我的交易
+
+Amount
+数量
+
+Pending
+待定
+
+Block
+块
+
+Type
+类型
+
+Fees
+收费
+
+Add liquidity
+增加流动性
+
+Take liquidity
+减少流动性
+
